@@ -4,6 +4,7 @@ import ActionButtons from './ActionButtons';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
 import LoadingSpinner from './LoadingSpinner';
+import { API_BASE_URL } from '../api';
 import './WaterTracker.css';
 
 function WaterTracker() {
@@ -30,7 +31,7 @@ function WaterTracker() {
                     },
                 };
                 const date = getTodayDateString();
-                const { data } = await axios.get(`http://localhost:5000/api/water/${date}`, config);
+                const { data } = await axios.get(`${API_BASE_URL}/api/water/${date}`, config);
                 setWaterData(data);
                 setNewGoal(data.goal);
             } catch (error) {
@@ -63,7 +64,7 @@ function WaterTracker() {
                 },
             };
             const date = getTodayDateString();
-            const { data } = await axios.post('http://localhost:5000/api/water/goal', { goal: newGoal, date }, config);
+            const { data } = await axios.post(`${API_BASE_URL}/api/water/goal`, { goal: newGoal, date }, config);
             setWaterData(data);
             setIsEditingGoal(false);
         } catch (error) {
@@ -80,7 +81,7 @@ function WaterTracker() {
                 },
             };
             const date = getTodayDateString();
-            const { data } = await axios.post('http://localhost:5000/api/water/drink', { amount, date }, config);
+            const { data } = await axios.post(`${API_BASE_URL}/api/water/drink`, { amount, date }, config);
             setWaterData(data);
         } catch (error) {
             console.error('Failed to add water', error);
@@ -96,7 +97,7 @@ function WaterTracker() {
                 },
             };
             const date = getTodayDateString();
-            const { data } = await axios.put('http://localhost:5000/api/water/reset', { date }, config);
+            const { data } = await axios.put(`${API_BASE_URL}/api/water/reset`, { date }, config);
             setWaterData(data);
         } catch (error) {
             console.error('Failed to reset water', error);

@@ -4,6 +4,7 @@ import axios from 'axios';
 import AuthContext from '../context/AuthContext';
 import FormContainer from '../components/FormContainer';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { API_BASE_URL } from '../api';
 
 const RegisterPage = () => {
     const [name, setName] = useState('');
@@ -36,7 +37,7 @@ const RegisterPage = () => {
                     },
                 };
                 await axios.post(
-                    'http://localhost:5000/api/users',
+                    `${API_BASE_URL}/api/users`,
                     { name, email, password },
                     config
                 );

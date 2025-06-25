@@ -4,6 +4,7 @@ import axios from 'axios';
 import AuthContext from '../context/AuthContext';
 import FormContainer from '../components/FormContainer';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { API_BASE_URL } from '../api';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -42,7 +43,7 @@ const LoginPage = () => {
                 },
             };
             const { data } = await axios.post(
-                'http://localhost:5000/api/users/login',
+                `${API_BASE_URL}/api/users/login`,
                 { email, password },
                 config
             );
