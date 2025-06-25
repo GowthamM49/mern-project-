@@ -1,0 +1,228 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+  background: linear-gradient(135deg, #6dd5ed, #2193b0);
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  color: #333;
+}
+
+.app-container {
+  background: #e6f6fa;
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  padding: 2.5rem 2rem 2rem 2rem;
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  color: #004c6d;
+  margin-bottom: 25px;
+  font-weight: 600;
+  font-size: 2.5em;
+}
+
+.water-container {
+  width: 180px;
+  height: 280px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 7px solid #004c6d;
+  border-top: none;
+  border-radius: 0 0 50px 50px;
+  margin: 0 auto 25px;
+  position: relative;
+  overflow: hidden;
+}
+
+.water-level {
+  background: linear-gradient(to top, #1e90ff, #00bfff);
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  transition: height 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.water-level::before, .water-level::after {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: 0;
+  left: 50%;
+  background: #fff;
+}
+
+.water-level::before {
+  border-radius: 45%;
+  background: rgba(255, 255, 255, 0.2);
+  animation: wave 5s linear infinite;
+}
+
+.water-level::after {
+  border-radius: 40%;
+  background: rgba(255, 255, 255, 0.3);
+  animation: wave 7s linear infinite;
+  animation-delay: -3.5s;
+}
+
+@keyframes wave {
+  0% {
+    transform: translateX(-50%) translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-100%) rotate(360deg);
+  }
+}
+
+.water-info {
+  color: white;
+  font-size: 28px;
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  z-index: 10;
+}
+
+.info {
+  margin-bottom: 25px;
+}
+
+.intake-info {
+  font-size: 22px;
+  color: #004c6d;
+  font-weight: 400;
+}
+
+.actions .water-button,
+.actions .reset-button {
+  background: linear-gradient(145deg, #007bff, #0056b3);
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  margin: 8px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 300;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.actions .water-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.actions .reset-button {
+  background: linear-gradient(145deg, #ff416c, #ff4b2b);
+}
+
+.actions .reset-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255, 75, 43, 0.4);
+}
+
+.goal-reached-message {
+    text-align: center;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #e0f7fa;
+    color: #00796b;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.goal-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.edit-goal-button {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.goal-edit-form {
+    display: flex;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.goal-input {
+    flex-grow: 1;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 8px 0 0 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.save-goal-button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    background-color: #28a745;
+    color: white;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+@media (max-width: 480px) {
+    .app-container {
+        padding: 1rem;
+        width: 95%;
+    }
+
+    .goal-container {
+        flex-direction: column;
+    }
+
+    .edit-goal-button {
+        margin-top: 1rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .action-buttons > button {
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+
+    .title {
+        font-size: 1.8rem;
+    }
+} 
