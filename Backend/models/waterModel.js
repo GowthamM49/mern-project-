@@ -26,6 +26,7 @@ const waterSchema = mongoose.Schema({
     },
     lastDrinkAt: {
         type: Date,
+        required: false,
     },
 }, {
     timestamps: true,

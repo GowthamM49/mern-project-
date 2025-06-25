@@ -23,7 +23,10 @@ function WaterTracker() {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (!userInfo) return;
+            if (!userInfo) {
+                setLoading(false);
+                return;
+            }
             try {
                 const config = {
                     headers: {
