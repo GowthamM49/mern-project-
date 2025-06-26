@@ -30,8 +30,8 @@ const WelcomePage = () => {
         Sign up or log in to start tracking your hydration journey!
       </p>
       <div style={{ marginTop: '2rem' }}>
-        <Link to="/login" style={{ marginRight: '1rem', fontWeight: 'bold', color: '#007bff' }}>Sign In</Link>
-        <Link to="/register" style={{ fontWeight: 'bold', color: '#007bff' }}>Register</Link>
+        <Link to="/login" style={{ marginRight: '1rem', fontWeight: 'bold', color: 'red' }}>Sign In</Link>
+        <Link to="/register" style={{ fontWeight: 'bold', color: 'red' }}>Register</Link>
       </div>
     </div>
   );
