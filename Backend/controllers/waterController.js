@@ -105,5 +105,64 @@ const resetWater = asyncHandler(async (req, res) => {
     }
 });
 
+// @desc    Get hydration history for the past N days
+// @route   GET /api/water/history?days=7
+// @access  Private
+const getHydrationHistory = asyncHandler(async (req, res) => {
+    try {
+        if (!req.user || !req.user._id) {
+            console.error('getHydrationHistory: No user found in request', { user: req.user });
+            return res.status(401).json({ message: 'Not authorized, user missing' });
+        }
+        const user = req.user._id;
+        const days = parseInt(req.query.days) || 7;
+        // Set startDate to 00:00:00 of the first day
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const startDate = new Date(today);
+        startDate.setDate(today.getDate() - (days - 1));
+        // Set endDate to 23:59:59 of today
+        const endDate = new Date(today);
+        endDate.setHours(23, 59, 59, 999);
 
-module.exports = { getWaterData, setWaterGoal, addConsumedWater, resetWater }; 
+        console.log('HydrationHistory:', { user, startDate, endDate, query: req.query });
+
+        let records = [];
+        try {
+            records = await Water.find({
+                user,
+                date: { $gte: startDate, $lte: endDate },
+            }).sort({ date: 1 });
+        } catch (findErr) {
+            console.error('Error querying Water.find in getHydrationHistory:', findErr.stack || findErr);
+            records = [];
+        }
+        if (!records) records = [];
+        console.log('HydrationHistory records:', records);
+
+        // Build a map for quick lookup
+        const dateMap = {};
+        records.forEach(r => {
+            const d = r.date.toISOString().split('T')[0];
+            dateMap[d] = r.consumed;
+        });
+
+        // Build the result for each day in the range
+        const result = [];
+        for (let i = 0; i < days; i++) {
+            const d = new Date(startDate);
+            d.setDate(startDate.getDate() + i);
+            const dateStr = d.toISOString().split('T')[0];
+            result.push({
+                date: dateStr,
+                consumed: dateMap[dateStr] || 0,
+            });
+        }
+        res.json(result);
+    } catch (error) {
+        console.error('Error in getHydrationHistory:', error.stack || error);
+        res.status(500).json({ message: error.message || 'Server error in hydration history' });
+    }
+});
+
+module.exports = { getWaterData, setWaterGoal, addConsumedWater, resetWater, getHydrationHistory }; 

@@ -1,7 +1,7 @@
 import React from 'react';
 import WaterTracker from '../components/WaterTracker';
 
-const HomePage = () => {
+const IndexPage = () => {
     return (
         <div>
             <WaterTracker />
@@ -9,4 +9,4 @@ const HomePage = () => {
     );
 };
 
-export default HomePage; 
+export default IndexPage; 

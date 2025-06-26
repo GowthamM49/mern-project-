@@ -19,7 +19,7 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (userInfo) {
-            navigate('/');
+            navigate('/tracker');
         }
     }, [navigate, userInfo]);
 
@@ -48,7 +48,7 @@ const LoginPage = () => {
                 config
             );
             login(data);
-            navigate('/');
+            navigate('/tracker');
         } catch (error) {
             setMessageType('error');
             setMessage(error.response?.data?.message || 'An error occurred');

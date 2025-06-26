@@ -19,7 +19,7 @@ const RegisterPage = () => {
 
     useEffect(() => {
         if (userInfo) {
-            navigate('/');
+            navigate('/tracker');
         }
     }, [navigate, userInfo]);
 
