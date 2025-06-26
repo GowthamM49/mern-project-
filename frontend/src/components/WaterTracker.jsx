@@ -15,6 +15,7 @@ function WaterTracker() {
     const [isEditingGoal, setIsEditingGoal] = useState(false);
     const [newGoal, setNewGoal] = useState(waterData.goal);
     const { userInfo } = useContext(AuthContext);
+    const [gender, setGender] = useState('female'); // default to female
 
     const getTodayDateString = () => {
         const today = new Date();
@@ -56,6 +57,13 @@ function WaterTracker() {
             setGoalReached(false);
         }
     }, [waterData]);
+
+    // When gender changes, update newGoal to default for that gender
+    useEffect(() => {
+        if (isEditingGoal && (gender === 'male' || gender === 'female')) {
+            setNewGoal(gender === 'male' ? 3700 : 2700);
+        }
+    }, [gender, isEditingGoal]);
 
     const handleSetGoal = async (e) => {
         e.preventDefault();
@@ -130,14 +138,43 @@ function WaterTracker() {
                 </button>
             </div>
             {isEditingGoal && (
-                <form onSubmit={handleSetGoal} className="goal-edit-form">
-                    <input
-                        type="number"
-                        value={newGoal}
-                        onChange={(e) => setNewGoal(e.target.value)}
-                        className="goal-input"
-                    />
-                    <button type="submit" className="save-goal-button">Save</button>
+                <form onSubmit={handleSetGoal} className="goal-edit-form" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+                    <div style={{ marginBottom: '1rem' }}>
+                        <p style={{ fontWeight: 500, marginBottom: '0.5rem' }}>Select a preset or enter a custom goal:</p>
+                        <label style={{ marginRight: '1rem' }}>
+                            <input
+                                type="radio"
+                                name="gender"
+                                value="male"
+                                checked={gender === 'male'}
+                                onChange={() => setGender('male')}
+                            /> Male (3700ml)
+                        </label>
+                        <label style={{ marginRight: '1rem' }}>
+                            <input
+                                type="radio"
+                                name="gender"
+                                value="female"
+                                checked={gender === 'female'}
+                                onChange={() => setGender('female')}
+                            /> Female (2700ml)
+                        </label>
+                    </div>
+                    <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center' }}>
+                        <label style={{ marginRight: '0.5rem', fontWeight: 500 }}>Custom Goal:</label>
+                        <input
+                            type="number"
+                            value={newGoal}
+                            onChange={(e) => {
+                                setNewGoal(e.target.value);
+                                setGender('custom');
+                            }}
+                            className="goal-input"
+                            style={{ width: '100px', padding: '0.5rem' }}
+                        />
+                        <span style={{ marginLeft: '0.5rem' }}>ml</span>
+                    </div>
+                    <button type="submit" className="save-goal-button" style={{ marginTop: '1rem' }}>Save Goal</button>
                 </form>
             )}
             {goalReached && (
