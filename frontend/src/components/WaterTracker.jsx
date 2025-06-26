@@ -14,7 +14,6 @@ function WaterTracker() {
     const [loading, setLoading] = useState(true);
     const [isEditingGoal, setIsEditingGoal] = useState(false);
     const [newGoal, setNewGoal] = useState(waterData.goal);
-    const [history, setHistory] = useState([]);
     const { userInfo } = useContext(AuthContext);
 
     const getTodayDateString = () => {
@@ -38,8 +37,6 @@ function WaterTracker() {
                 const { data } = await axios.get(`${API_BASE_URL}/api/water/${date}`, config);
                 setWaterData(data);
                 setNewGoal(data.goal);
-                const historyRes = await axios.get(`${API_BASE_URL}/api/water/history?days=7`, config);
-                setHistory(historyRes.data);
             } catch (error) {
                 console.error('Failed to fetch water data', error);
             } finally {
@@ -154,28 +151,6 @@ function WaterTracker() {
             </div>
             <WaterDisplay percentage={percentage} intake={waterData.consumed} goal={waterData.goal} />
             <ActionButtons addWater={addWater} resetIntake={resetIntake} />
-            {/* Hydration History Section */}
-            {history.length > 0 && (
-                <div style={{ marginTop: '2rem', width: '100%' }}>
-                    <h2 style={{ textAlign: 'center', color: '#004c6d', marginBottom: '1rem', fontSize: '1.3rem' }}>Hydration History (Last 7 Days)</h2>
-                    <table style={{ width: '100%', borderCollapse: 'collapse', background: '#fff', borderRadius: '10px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
-                        <thead>
-                            <tr style={{ background: '#e6f6fa' }}>
-                                <th style={{ padding: '0.5rem', borderBottom: '1px solid #b2ebf2' }}>Date</th>
-                                <th style={{ padding: '0.5rem', borderBottom: '1px solid #b2ebf2' }}>Consumed (ml)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {history.map((entry) => (
-                                <tr key={entry.date}>
-                                    <td style={{ padding: '0.5rem', textAlign: 'center' }}>{entry.date}</td>
-                                    <td style={{ padding: '0.5rem', textAlign: 'center' }}>{entry.consumed}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            )}
         </div>
     );
 }

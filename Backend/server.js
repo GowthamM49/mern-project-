@@ -5,6 +5,7 @@ const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
 const waterRoutes = require('./routes/waterRoutes');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
+const path = require('path');
 
 dotenv.config();
 
@@ -21,6 +22,12 @@ app.get('/', (req, res) => {
 
 app.use('/api/users', userRoutes);
 app.use('/api/water', waterRoutes);
+
+// Serve frontend for all other routes (SPA support)
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
+});
 
 app.use(notFound);
 app.use(errorHandler);
